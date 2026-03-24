@@ -1,4 +1,10 @@
 /* No seu index.css ou App.css */
+*{
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
 :root {
   margin: 0;
   padding: 0;
