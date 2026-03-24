@@ -1,0 +1,15 @@
+.aurora-container {
+  width: 100vw;   /* 100% da largura da tela */
+  height: 100vh;  /* 100% da altura da tela */
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;     /* Fica atrás do conteúdo */
+}
+
+/* Garante que o canvas gerado pelo ogl também ocupe tudo */
+.aurora-container canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
