@@ -3,6 +3,7 @@ import Header from './components/Header/Header'
 import Hero from './components/Hero/Hero'
 import About from './components/About/About'
 import StackShowcase from './components/StackShowcase/StackShowcase'
+import TechRail from './components/TechRail/TechRail'
 import './App.css'
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         <Header />
         <Hero />
         <StackShowcase />
+        <TechRail />
       </div>
 
     </>
