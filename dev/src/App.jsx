@@ -12,7 +12,6 @@ function App() {
       <div className='app-wrapper'>
         <Header />
         <Hero />
-        <About />
         <StackShowcase />
       </div>
 

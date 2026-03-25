@@ -124,3 +124,15 @@
   border-radius: inherit;
   overflow: clip;
 }
+
+.border-glow-inner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5.5rem;
+  pointer-events: none;
+  z-index: 3;
+  background: linear-gradient(180deg, rgba(5, 5, 7, 0.88) 0%, rgba(5, 5, 7, 0.56) 45%, rgba(5, 5, 7, 0) 100%);
+}
