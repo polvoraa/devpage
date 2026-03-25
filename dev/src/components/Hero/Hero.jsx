@@ -23,7 +23,7 @@ const Hero = () => {
       {/* 2. Conteúdo centralizado */}
       <div className="hero-content">
         <SplitText
-          text="Desenvolvedor Web"
+          text="Matheus Pólvora"
           className="hero-title"
           delay={50}
           animationFrom={{ opacity: 0, y: 40 }}
