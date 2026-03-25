@@ -6,13 +6,15 @@ import About from './components/About/About'
 import './App.css'
 
 function App() {
-  useSmoothScroll({ lerp: 0.09 });
+  useSmoothScroll({ lerp: 0.2 });
   return (
     <>
-    <Header />
-    <Hero />
-    <About />
-    
+      <div className='app-wrapper'>
+        <Header />
+        <Hero />
+        <About />
+      </div>
+
     </>
   )
 }
