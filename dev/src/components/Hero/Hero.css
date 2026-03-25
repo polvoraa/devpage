@@ -89,3 +89,21 @@
   0%, 100% { transform: translateX(-50%) translateY(0);   opacity: 0.5; }
   50%       { transform: translateX(-50%) translateY(8px); opacity: 1;   }
 }
+
+@media (max-width: 768px) {
+  .hero-content {
+    text-align: center;
+    padding: 0 1.5rem;
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 10vw, 3rem);
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
