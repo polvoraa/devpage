@@ -1,5 +1,7 @@
 import Aurora from '../Aurora/Aurora';
-import SplitText from '../SplitText/SplitText'; 
+import SplitText from '../SplitText/SplitText';
+import GlassSurface from '../GlassSurface/GlassSurface'
+
 import './Hero.css'  // O componente que você postou
 
 const Hero = () => {
@@ -8,7 +10,7 @@ const Hero = () => {
       {/* 1. Background Aurora ocupa tudo ao fundo */}
       <div className="aurora-wrapper">
         <Aurora
-          colorStops={["#00d2ff", "#3a7bd5", "#00d2ff"]}
+          colorStops={["#F3F4F6", "#5A0F2E", "#6D28D9"]}
           blend={0.5}
           amplitude={1.0}
           speed={0.5}
@@ -27,12 +29,13 @@ const Hero = () => {
           threshold={0.2}
           textAlign="center"
         />
-        
+
         <p className="hero-subtitle">
           Criando interfaces imersivas com React e WebGL.
         </p>
       </div>
     </section>
+    
   );
 };
 
