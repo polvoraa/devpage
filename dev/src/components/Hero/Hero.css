@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #000; /* Fundo escuro para destacar a Aurora */
+  background-color: #000;
   overflow: hidden;
 }
 
@@ -20,17 +20,16 @@
 
 .hero-content {
   position: relative;
-  z-index: 10; /* Garante que o texto fique na frente */
+  z-index: 10;
   color: white;
-  pointer-events: none; /* Deixa o mouse "atravessar" o texto se precisar interagir com a Aurora */
+  pointer-events: none;
 }
 
 .hero-title {
-  font-size: clamp(2rem, 8vw, 5rem); /* Fonte responsiva */
+  font-size: clamp(2rem, 8vw, 5rem);
   font-weight: 700;
   margin: 0;
   line-height: 1.2;
-  /* letter-spacing: -0.02em; */
 }
 
 .hero-subtitle {
@@ -50,16 +49,43 @@
 }
 
 .hero-glass:hover {
-  animation-play-state: paused; /* para de girar */
+  animation-play-state: paused;
   transform: translate(300px, -300px) rotate(180deg);
   opacity: 0;
 }
 
 @keyframes rotateGlass {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ── SCROLL ARROW ────────────────────────────────────────── */
+.hero-scroll-arrow {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 0.5rem;
+
+  animation: arrowFloat 2.4s ease-in-out infinite;
+  transition: color 0.3s;
+}
+
+.hero-scroll-arrow:hover {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+@keyframes arrowFloat {
+  0%, 100% { transform: translateX(-50%) translateY(0);   opacity: 0.5; }
+  50%       { transform: translateX(-50%) translateY(8px); opacity: 1;   }
 }

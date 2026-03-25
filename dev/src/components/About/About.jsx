@@ -58,8 +58,8 @@ export default function About() {
         {/* ── LEFT: bio ── */}
         <div className="about-left">
           <h2 className="about-heading reveal">
-            Código é<br />
-            <span className="about-heading--accent">artesanato.</span>
+            Sobre 
+            <span className="about-heading--accent"> mim.</span>
           </h2>
 
           <p className="about-body reveal">
@@ -70,9 +70,6 @@ export default function About() {
           </p>
 
           <p className="about-body reveal">
-            Minha stack favorita combina React no front e Node.js no back, mas o
-            que realmente me move é o processo: entender o problema, arquitetar uma
-            solução limpa e entregar algo que dure.
           </p>
 
           <div className="about-tags reveal">

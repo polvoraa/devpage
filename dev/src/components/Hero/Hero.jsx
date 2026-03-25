@@ -1,13 +1,16 @@
 import Aurora from '../Aurora/Aurora';
 import SplitText from '../SplitText/SplitText';
-import GlassSurface from '../GlassSurface/GlassSurface'
 
-import './Hero.css'  // O componente que você postou
+import './Hero.css';
 
 const Hero = () => {
+  const handleScrollDown = () => {
+    window.scrollTo({ top: window.innerHeight, behavior: 'smooth' });
+  };
+
   return (
     <section className="hero-container">
-      {/* 1. Background Aurora ocupa tudo ao fundo */}
+      {/* 1. Background Aurora */}
       <div className="aurora-wrapper">
         <Aurora
           colorStops={["#F3F4F6", "#5A0F2E", "#6D28D9"]}
@@ -17,7 +20,7 @@ const Hero = () => {
         />
       </div>
 
-      {/* 2. Conteúdo centralizado e acima da Aurora */}
+      {/* 2. Conteúdo centralizado */}
       <div className="hero-content">
         <SplitText
           text="Design que ganha vida"
@@ -34,8 +37,14 @@ const Hero = () => {
           Criando interfaces imersivas com React e WebGL.
         </p>
       </div>
+
+      {/* 3. Seta scroll */}
+      <button className="hero-scroll-arrow" onClick={handleScrollDown} aria-label="Rolar para baixo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+        </svg>
+      </button>
     </section>
-    
   );
 };
 
