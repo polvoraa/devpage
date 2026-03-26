@@ -15,6 +15,7 @@ function App() {
         <Hero />
         <StackShowcase />
         <TechRail />
+                <Hero />
       </div>
 
     </>

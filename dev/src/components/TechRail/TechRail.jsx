@@ -9,7 +9,7 @@ const techCards = [
     description: 'Interfaces dinamicas, componentizacao consistente e motion com foco em experiencia.'
   },
   {
-    name: 'TypeScript',
+    name: 'JavaScript',
     label: 'Arquitetura',
     description: 'Codigo previsivel, contratos claros e manutencao menos fragil conforme o projeto cresce.'
   },
@@ -36,66 +36,77 @@ const techCards = [
 ];
 
 export default function TechRail() {
-  const sectionRef = useRef(null);
+  const sectionRef  = useRef(null);
   const viewportRef = useRef(null);
-  const trackRef = useRef(null);
+  const trackRef    = useRef(null);
 
   useEffect(() => {
-    const updateTrack = () => {
-      const section = sectionRef.current;
-      const viewport = viewportRef.current;
-      const track = trackRef.current;
-      if (!section || !viewport || !track) return;
+    const section  = sectionRef.current;
+    const viewport = viewportRef.current;
+    const track    = trackRef.current;
+    if (!section || !viewport || !track) return;
 
-      const firstCard = track.firstElementChild;
-      if (!firstCard) return;
+    // ← aumente este valor se o último card não aparece completo
+    const EXTRA_PX = 100;
 
-      const sectionTop = section.getBoundingClientRect().top + window.scrollY;
-      const viewportWidth = viewport.clientWidth;
-      const viewportHeight = window.innerHeight;
-      const maxOverflow = Math.max(track.scrollWidth - viewportWidth, 0);
-      const firstCardWidth = firstCard.getBoundingClientRect().width;
-      const maxTranslate = Math.min(maxOverflow, Math.max(firstCardWidth * 0.7, 96));
-      const travelDistance = Math.max(maxTranslate + viewportHeight * 0.35, viewportHeight * 0.9);
+    const setup = () => {
+      const trackW      = track.scrollWidth;
+      const viewportW   = viewport.clientWidth;
+      const totalScroll = Math.max(trackW - viewportW, 0) + EXTRA_PX;
+      section.style.minHeight = `${window.innerHeight + totalScroll}px`;
+    };
 
-      section.style.minHeight = `${viewportHeight + travelDistance}px`;
+    const onScroll = () => {
+      const trackW      = track.scrollWidth;
+      const viewportW   = viewport.clientWidth;
+      const totalScroll = Math.max(trackW - viewportW, 0) + EXTRA_PX;
+      if (totalScroll === 0) return;
 
-      const start = sectionTop;
-      const end = start + travelDistance;
-      const progress = end <= start ? 0 : Math.min(Math.max((window.scrollY - start) / (end - start), 0), 1);
-
-      track.style.transform = `translate3d(${-maxTranslate * progress}px, 0, 0)`;
+      // sectionTop = absolute Y of section start
+      const sectionTop  = section.getBoundingClientRect().top + window.scrollY;
+      // scroll starts when section top hits viewport top
+      const raw         = window.scrollY - sectionTop;
+      const progress    = Math.min(Math.max(raw / totalScroll, 0), 1);
+      track.style.transform = `translate3d(${-totalScroll * progress}px, 0, 0)`;
     };
 
     let rafId = null;
-    const requestUpdate = () => {
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(updateTrack);
+    const tick = () => {
+      onScroll();
+      rafId = null;
+    };
+    const requestTick = () => {
+      if (!rafId) rafId = requestAnimationFrame(tick);
     };
 
-    requestUpdate();
-    window.addEventListener('scroll', requestUpdate, { passive: true });
-    window.addEventListener('resize', requestUpdate);
+    setup();
+    requestTick();
+
+    window.addEventListener('scroll', requestTick, { passive: true });
+    window.addEventListener('resize', () => { setup(); requestTick(); });
 
     return () => {
-      window.removeEventListener('scroll', requestUpdate);
-      window.removeEventListener('resize', requestUpdate);
+      window.removeEventListener('scroll', requestTick);
+      window.removeEventListener('resize', requestTick);
       if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);
 
   return (
     <section className="tech-rail-section" ref={sectionRef}>
-      <div className="tech-rail-head">
-        <span className="tech-rail-kicker">Stack</span>
-        <h2 className="tech-rail-title">Tecnologias que uso para tirar a ideia da tela.</h2>
-        <p className="tech-rail-copy">
-          Frontend, backend, dados e motion. A proposta aqui nao e colecionar ferramenta, e escolher a
-          combinacao certa para cada entrega.
-        </p>
-      </div>
 
+      {/* Sticky frame — header + cards pregados juntos na tela */}
       <div className="tech-rail-sticky">
+
+        {/* Header visível junto com os cards */}
+        <div className="tech-rail-head">
+          <span className="tech-rail-kicker">Stack</span>
+          <h2 className="tech-rail-title">Tecnologias que uso para tirar a ideia da tela.</h2>
+          <p className="tech-rail-copy">
+            Frontend, backend, dados e motion. A proposta aqui nao e colecionar ferramenta, e escolher a
+            combinacao certa para cada entrega.
+          </p>
+        </div>
         <div className="tech-rail-viewport" ref={viewportRef}>
           <div className="tech-rail-track" ref={trackRef}>
             {techCards.map((card) => (
@@ -121,7 +132,52 @@ export default function TechRail() {
             ))}
           </div>
         </div>
+
+        {/* Progress indicator */}
+        <ProgressDots total={techCards.length} trackRef={trackRef} viewportRef={viewportRef} sectionRef={sectionRef} />
       </div>
+
     </section>
+  );
+}
+
+/* ── Dot progress indicator ─────────────────────────────── */
+function ProgressDots({ total, trackRef, viewportRef, sectionRef }) {
+  const dotsRef = useRef([]);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const section  = sectionRef.current;
+      const track    = trackRef.current;
+      const viewport = viewportRef.current;
+      if (!section || !track || !viewport) return;
+
+      const totalScroll = Math.max(track.scrollWidth - viewport.clientWidth, 0);
+      const sectionTop  = section.getBoundingClientRect().top + window.scrollY;
+      const raw         = window.scrollY - sectionTop;
+      const progress    = Math.min(Math.max(raw / totalScroll, 0), 1);
+      const activeIndex = Math.round(progress * (total - 1));
+
+      dotsRef.current.forEach((dot, i) => {
+        if (!dot) return;
+        dot.classList.toggle('active', i === activeIndex);
+      });
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [total, trackRef, viewportRef, sectionRef]);
+
+  return (
+    <div className="tech-rail-dots">
+      {Array.from({ length: total }).map((_, i) => (
+        <span
+          key={i}
+          className="tech-rail-dot"
+          ref={(el) => (dotsRef.current[i] = el)}
+        />
+      ))}
+    </div>
   );
 }

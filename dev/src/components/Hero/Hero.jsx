@@ -1,6 +1,5 @@
 import Aurora from '../Aurora/Aurora';
 import SplitText from '../SplitText/SplitText';
-
 import './Hero.css';
 
 const Hero = () => {
@@ -10,7 +9,8 @@ const Hero = () => {
 
   return (
     <section className="hero-container">
-      {/* 1. Background Aurora */}
+
+      {/* Aurora background */}
       <div className="aurora-wrapper">
         <Aurora
           colorStops={["#F3F4F6", "#5A0F2E", "#6D28D9"]}
@@ -20,8 +20,19 @@ const Hero = () => {
         />
       </div>
 
-      {/* 2. Conteúdo centralizado */}
+      {/* Grain overlay for texture */}
+      <div className="hero-grain" />
+
+      {/* Content */}
       <div className="hero-content">
+
+        {/* Eyebrow tag */}
+        <div className="hero-eyebrow">
+          <span className="hero-eyebrow-dot" />
+          Full Stack Developer
+        </div>
+
+        {/* Main title */}
         <SplitText
           text="Matheus Pólvora"
           className="hero-title"
@@ -33,17 +44,33 @@ const Hero = () => {
           textAlign="center"
         />
 
+        {/* Subtitle */}
         <p className="hero-subtitle">
           Criando interfaces imersivas com React e WebGL.
         </p>
+
+        {/* CTA Buttons */}
+        <div className="hero-ctas">
+          <a href="#portfolio" className="hero-btn hero-btn--primary">
+            <span>Ver Portfólio</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </a>
+          <a href="#contato" className="hero-btn hero-btn--ghost">
+            <span>Entrar em contato</span>
+          </a>
+        </div>
+
       </div>
 
-      {/* 3. Seta scroll */}
+      {/* Scroll arrow */}
       <button className="hero-scroll-arrow" onClick={handleScrollDown} aria-label="Rolar para baixo">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
           <path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       </button>
+
     </section>
   );
 };
