@@ -39,6 +39,10 @@ export default function TechRail() {
   const sectionRef  = useRef(null);
   const viewportRef = useRef(null);
   const trackRef    = useRef(null);
+  const metricsRef = useRef({
+    sectionTop: 0,
+    totalScroll: 0
+  });
 
   useEffect(() => {
     const section  = sectionRef.current;
@@ -49,22 +53,20 @@ export default function TechRail() {
     // ← aumente este valor se o último card não aparece completo
     const EXTRA_PX = 100;
 
-    const setup = () => {
+    const updateMetrics = () => {
       const trackW      = track.scrollWidth;
       const viewportW   = viewport.clientWidth;
       const totalScroll = Math.max(trackW - viewportW, 0) + EXTRA_PX;
+      const sectionTop  = section.getBoundingClientRect().top + window.scrollY;
+
+      metricsRef.current = { totalScroll, sectionTop };
       section.style.minHeight = `${window.innerHeight + totalScroll}px`;
     };
 
     const onScroll = () => {
-      const trackW      = track.scrollWidth;
-      const viewportW   = viewport.clientWidth;
-      const totalScroll = Math.max(trackW - viewportW, 0) + EXTRA_PX;
+      const { totalScroll, sectionTop } = metricsRef.current;
       if (totalScroll === 0) return;
 
-      // sectionTop = absolute Y of section start
-      const sectionTop  = section.getBoundingClientRect().top + window.scrollY;
-      // scroll starts when section top hits viewport top
       const raw         = window.scrollY - sectionTop;
       const progress    = Math.min(Math.max(raw / totalScroll, 0), 1);
       track.style.transform = `translate3d(${-totalScroll * progress}px, 0, 0)`;
@@ -79,15 +81,20 @@ export default function TechRail() {
       if (!rafId) rafId = requestAnimationFrame(tick);
     };
 
-    setup();
+    const handleResize = () => {
+      updateMetrics();
+      requestTick();
+    };
+
+    updateMetrics();
     requestTick();
 
     window.addEventListener('scroll', requestTick, { passive: true });
-    window.addEventListener('resize', () => { setup(); requestTick(); });
+    window.addEventListener('resize', handleResize);
 
     return () => {
       window.removeEventListener('scroll', requestTick);
-      window.removeEventListener('resize', requestTick);
+      window.removeEventListener('resize', handleResize);
       if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);
@@ -144,6 +151,7 @@ export default function TechRail() {
 /* ── Dot progress indicator ─────────────────────────────── */
 function ProgressDots({ total, trackRef, viewportRef, sectionRef }) {
   const dotsRef = useRef([]);
+  const rafRef = useRef(null);
 
   useEffect(() => {
     const onScroll = () => {
@@ -164,9 +172,26 @@ function ProgressDots({ total, trackRef, viewportRef, sectionRef }) {
       });
     };
 
-    window.addEventListener('scroll', onScroll, { passive: true });
+    const requestUpdate = () => {
+      if (rafRef.current) return;
+
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = null;
+        onScroll();
+      });
+    };
+
+    window.addEventListener('scroll', requestUpdate, { passive: true });
+    window.addEventListener('resize', requestUpdate);
     onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', requestUpdate);
+      window.removeEventListener('resize', requestUpdate);
+
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
   }, [total, trackRef, viewportRef, sectionRef]);
 
   return (

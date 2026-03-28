@@ -53,7 +53,7 @@ const SplitText = ({
     return () => {
       trigger.kill();
     };
-  }, [text]);
+  }, [delay, duration, ease, from, text, to]);
 
   const Tag = tag;
   return <Tag ref={ref} className={`split-parent ${className}`} />;

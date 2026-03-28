@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import './BorderGlow.css';
 
 function parseHSL(hslStr) {
@@ -51,6 +51,9 @@ export default function BorderGlow({
   fillOpacity = 0.5
 }) {
   const cardRef = useRef(null);
+  const rectRef = useRef(null);
+  const frameRef = useRef(null);
+  const pointerRef = useRef({ x: 0, y: 0 });
 
   const getCenterOfElement = useCallback((element) => {
     const { width, height } = element.getBoundingClientRect();
@@ -83,13 +86,13 @@ export default function BorderGlow({
     return degrees;
   }, [getCenterOfElement]);
 
-  const handlePointerMove = useCallback((event) => {
+  const updateGlow = useCallback(() => {
     const card = cardRef.current;
     if (!card) return;
 
-    const rect = card.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
+    const rect = rectRef.current ?? card.getBoundingClientRect();
+    const x = pointerRef.current.x - rect.left;
+    const y = pointerRef.current.y - rect.top;
     const edge = getEdgeProximity(card, x, y);
     const angle = getCursorAngle(card, x, y);
 
@@ -97,28 +100,66 @@ export default function BorderGlow({
     card.style.setProperty('--cursor-angle', `${angle.toFixed(3)}deg`);
   }, [getCursorAngle, getEdgeProximity]);
 
+  const handlePointerEnter = useCallback(() => {
+    const card = cardRef.current;
+    if (!card) return;
+    rectRef.current = card.getBoundingClientRect();
+  }, []);
+
+  const handlePointerMove = useCallback((event) => {
+    pointerRef.current = { x: event.clientX, y: event.clientY };
+
+    if (frameRef.current) return;
+
+    frameRef.current = requestAnimationFrame(() => {
+      frameRef.current = null;
+      updateGlow();
+    });
+  }, [updateGlow]);
+
   const resetGlow = useCallback(() => {
     const card = cardRef.current;
     if (!card) return;
+
+    rectRef.current = null;
+
+    if (frameRef.current) {
+      cancelAnimationFrame(frameRef.current);
+      frameRef.current = null;
+    }
+
     card.style.setProperty('--edge-proximity', '0');
   }, []);
+
+  const styleVars = useMemo(() => ({
+    '--card-bg': backgroundColor,
+    '--edge-sensitivity': edgeSensitivity,
+    '--border-radius': `${borderRadius}px`,
+    '--glow-padding': `${glowRadius}px`,
+    '--cone-spread': coneSpread,
+    '--fill-opacity': fillOpacity,
+    ...buildGlowVars(glowColor, glowIntensity),
+    ...buildGradientVars(colors)
+  }), [
+    backgroundColor,
+    borderRadius,
+    colors,
+    coneSpread,
+    edgeSensitivity,
+    fillOpacity,
+    glowColor,
+    glowIntensity,
+    glowRadius
+  ]);
 
   return (
     <div
       ref={cardRef}
+      onPointerEnter={handlePointerEnter}
       onPointerMove={handlePointerMove}
       onPointerLeave={resetGlow}
       className={`border-glow-card ${className}`.trim()}
-      style={{
-        '--card-bg': backgroundColor,
-        '--edge-sensitivity': edgeSensitivity,
-        '--border-radius': `${borderRadius}px`,
-        '--glow-padding': `${glowRadius}px`,
-        '--cone-spread': coneSpread,
-        '--fill-opacity': fillOpacity,
-        ...buildGlowVars(glowColor, glowIntensity),
-        ...buildGradientVars(colors)
-      }}
+      style={styleVars}
     >
       <span className="edge-light" />
       <div className="border-glow-inner">{children}</div>

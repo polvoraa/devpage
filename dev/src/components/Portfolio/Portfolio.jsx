@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { memo, useCallback, useRef } from 'react';
 import './Portfolio.css';
 import plannerPreview from '../../assets/images/portifolio/plannerpreview.png';
 import novaPreview from '../../assets/images/portifolio/novapreview.png';
@@ -8,8 +8,8 @@ const projects = [
   {
     title: 'Planner Pessoal',
     category: 'Full Stack',
-    description: `Planner inteligente com dashboard, tarefas diárias e integração com formulários dos meus sites.
-Organização e dados centralizados pra facilitar a rotina e tomada de decisão.`,
+    description: `Planner inteligente com dashboard, tarefas diarias e integracao com formularios dos meus sites.
+Organizacao e dados centralizados pra facilitar a rotina e tomada de decisao.`,
     stack: ['Vite', 'React', 'CSS', 'Node.js', 'Express', 'Mongoose', 'MongoDb'],
     liveUrl: 'https://planner-beta-liart.vercel.app/#',
     repoUrl: 'https://github.com/polvoraa/planner',
@@ -18,18 +18,18 @@ Organização e dados centralizados pra facilitar a rotina e tomada de decisão.
   {
     title: 'Site para empresa de Consultoria',
     category: 'Full Stack',
-    description: `Site institucional com home, projetos e serviços para empresa de consultoria em construção civil.
-Dashboard com login para acesso e gestão das respostas dos formulários.`,
+    description: `Site institucional com home, projetos e servicos para empresa de consultoria em construcao civil.
+Dashboard com login para acesso e gestao das respostas dos formularios.`,
     stack: ['Vite', 'React', 'CSS', 'Node.js', 'Express', 'Mongoose', 'MongoDb'],
     liveUrl: 'https://www.polvora-consultoria.com',
     repoUrl: 'https://github.com/polvoraa/polvora-consultoria',
     image: consultoriaPreview,
   },
   {
-    title: 'Site para Estúdio de Audio Visual',
+    title: 'Site para Estudio de Audio Visual',
     category: 'Full Stack',
-    description: `Site institucional com home e vitrine de projetos para estúdio audiovisual e marketing.
-Dashboard com login para adicionar e remover projetos de forma dinâmica.`,
+    description: `Site institucional com home e vitrine de projetos para estudio audiovisual e marketing.
+Dashboard com login para adicionar e remover projetos de forma dinamica.`,
     stack: ['Vite', 'React', 'CSS', 'Node.js', 'Express', 'Mongoose', 'MongoDb'],
     liveUrl: 'https://nova-six-sage.vercel.app/#/',
     repoUrl: 'https://github.com/polvoraa/nova',
@@ -37,26 +37,27 @@ Dashboard com login para adicionar e remover projetos de forma dinâmica.`,
   },
 ];
 
-function ProjectCard({ project, index }) {
+const ProjectCard = memo(function ProjectCard({ project, index }) {
   const imgRef = useRef(null);
   const containerRef = useRef(null);
-  const [offset, setOffset] = useState(0);
-  const [hovered, setHovered] = useState(false);
 
-  const handleMouseEnter = () => {
-    if (imgRef.current && containerRef.current) {
-      const imgHeight = imgRef.current.offsetHeight;
-      const containerHeight = containerRef.current.offsetHeight;
-      const maxOffset = Math.max(0, imgHeight - containerHeight);
-      setOffset(maxOffset);
-    }
-    setHovered(true);
-  };
+  const updateOffset = useCallback(() => {
+    if (!imgRef.current || !containerRef.current) return;
 
-  const handleMouseLeave = () => {
-    setHovered(false);
-    setOffset(0);
-  };
+    const imgHeight = imgRef.current.offsetHeight;
+    const containerHeight = containerRef.current.offsetHeight;
+    const maxOffset = Math.max(0, imgHeight - containerHeight);
+    imgRef.current.style.setProperty('--portfolio-offset', `${maxOffset}px`);
+  }, []);
+
+  const handleMouseEnter = useCallback(() => {
+    updateOffset();
+    imgRef.current?.classList.add('is-hovered');
+  }, [updateOffset]);
+
+  const handleMouseLeave = useCallback(() => {
+    imgRef.current?.classList.remove('is-hovered');
+  }, []);
 
   return (
     <article
@@ -75,9 +76,9 @@ function ProjectCard({ project, index }) {
           src={project.image}
           alt={project.title}
           className="portfolio-image"
-          style={{
-            transform: hovered ? `translateY(-${offset}px)` : 'translateY(0)',
-          }}
+          loading="lazy"
+          decoding="async"
+          onLoad={updateOffset}
         />
         <div className="portfolio-visual-glow" />
       </div>
@@ -96,16 +97,21 @@ function ProjectCard({ project, index }) {
       </div>
 
       <div className="portfolio-links">
-        <a href={project.liveUrl} className="portfolio-link">
+        <a href={project.liveUrl} className="portfolio-link" target="_blank" rel="noreferrer">
           Ver projeto
         </a>
-        <a href={project.repoUrl} className="portfolio-link portfolio-link--ghost">
-          Código
+        <a
+          href={project.repoUrl}
+          className="portfolio-link portfolio-link--ghost"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Codigo
         </a>
       </div>
     </article>
   );
-}
+});
 
 export default function Portfolio() {
   return (
@@ -115,8 +121,8 @@ export default function Portfolio() {
           <span className="portfolio-kicker">Portfolio</span>
           <h2 className="portfolio-title">Projetos que mostram como eu penso e construo.</h2>
           <p className="portfolio-intro">
-            Cada card abaixo pode ser trocado pelos seus projetos reais. A estrutura já
-            deixa título, descrição, stack e links prontos.
+            Cada card abaixo pode ser trocado pelos seus projetos reais. A estrutura ja
+            deixa titulo, descricao, stack e links prontos.
           </p>
         </div>
 

@@ -39,6 +39,12 @@ export default function ScrollStack({
   const lastTransformsRef = useRef(new Map());
 
   const childArray = useMemo(() => Children.toArray(children), [children]);
+  const wrapperRefCallbacks = Array.from({ length: childArray.length }, (_, index) => (node) => {
+    wrappersRef.current[index] = node;
+  });
+  const cardRefCallbacks = Array.from({ length: childArray.length }, (_, index) => (node) => {
+    cardsRef.current[index] = node;
+  });
 
   useLayoutEffect(() => {
     cardsRef.current = cardsRef.current.slice(0, childArray.length);
@@ -59,6 +65,8 @@ export default function ScrollStack({
   }, [childArray.length]);
 
   useEffect(() => {
+    const lastTransforms = lastTransformsRef.current;
+
     const updateCards = () => {
       const cards = cardsRef.current.filter(Boolean);
       const wrappers = wrappersRef.current.filter(Boolean);
@@ -104,7 +112,7 @@ export default function ScrollStack({
           blur: Math.round(blur * 100) / 100
         };
 
-        const prevTransform = lastTransformsRef.current.get(index);
+        const prevTransform = lastTransforms.get(index);
         const hasChanged =
           !prevTransform ||
           Math.abs(prevTransform.scale - nextTransform.scale) > 0.001 ||
@@ -115,7 +123,7 @@ export default function ScrollStack({
 
         card.style.transform = `scale(${nextTransform.scale}) rotate(${nextTransform.rotation}deg)`;
         card.style.filter = nextTransform.blur > 0 ? `blur(${nextTransform.blur}px)` : 'none';
-        lastTransformsRef.current.set(index, nextTransform);
+        lastTransforms.set(index, nextTransform);
       });
     };
 
@@ -140,7 +148,7 @@ export default function ScrollStack({
         cancelAnimationFrame(frameRef.current);
       }
 
-      lastTransformsRef.current.clear();
+      lastTransforms.clear();
     };
   }, [baseScale, blurAmount, itemScale, rotationAmount, scaleEndPosition, stackPosition]);
 
@@ -155,15 +163,11 @@ export default function ScrollStack({
               top: `calc(${stackPosition} + ${index * itemStackDistance}px)`,
               marginBottom: index === childArray.length - 1 ? 0 : `${itemDistance}px`
             }}
-            ref={(node) => {
-              wrappersRef.current[index] = node;
-            }}
+            ref={wrapperRefCallbacks[index]}
           >
             {isValidElement(child)
               ? cloneElement(child, {
-                  ref: (node) => {
-                    cardsRef.current[index] = node;
-                  }
+                  ref: cardRefCallbacks[index]
                 })
               : child}
           </div>
