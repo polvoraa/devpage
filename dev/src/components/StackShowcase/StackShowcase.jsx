@@ -22,7 +22,7 @@ const cards = [
 
 export default function StackShowcase() {
   return (
-      <ScrollStack className="stack-showcase">
+      <ScrollStack className="stack-showcase" id="stack">
       {cards.map((card) => (
         <ScrollStackItem key={card.title} className="stack-showcase-card">
           <BorderGlow

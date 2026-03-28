@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Aurora from '../Aurora/Aurora';
 import SplitText from '../SplitText/SplitText';
 import './Hero.css';
@@ -57,9 +58,9 @@ const Hero = () => {
               <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </a>
-          <a href="#contato" className="hero-btn hero-btn--ghost">
+          <Link to="/contact" className="hero-btn hero-btn--ghost">
             <span>Entrar em contato</span>
-          </a>
+          </Link>
         </div>
 
       </div>

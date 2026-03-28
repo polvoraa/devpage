@@ -1,24 +1,60 @@
-import useSmoothScroll from './components/Hooks/useSmoothScroll'
+import { Route, Routes, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 import Header from './components/Header/Header'
+import Footer from './components/Footer/Footer'
 import Hero from './components/Hero/Hero'
-import About from './components/About/About'
 import StackShowcase from './components/StackShowcase/StackShowcase'
 import TechRail from './components/TechRail/TechRail'
+import Portfolio from './components/Portfolio/Portfolio'
+import ContactPage from './pages/ContactPage/ContactPage'
 import './App.css'
 
-function App() {
-  // useSmoothScroll({ lerp: 0.2 });
+function ScrollToTopAndHash() {
+  const location = useLocation()
+
+  useEffect(() => {
+    if (location.hash) {
+      const element = document.querySelector(location.hash)
+
+      if (element) {
+        requestAnimationFrame(() => {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        })
+      }
+
+      return
+    }
+
+    window.scrollTo({ top: 0, behavior: 'auto' })
+  }, [location.pathname, location.hash])
+
+  return null
+}
+
+function HomePage() {
   return (
     <>
-      <div className='app-wrapper'>
-        <Header />
-        <Hero />
-        <StackShowcase />
-        <TechRail />
-                <Hero />
-      </div>
-
+      <Hero />
+      <StackShowcase />
+      <Portfolio />
+      <TechRail />
+      <Footer />
     </>
+  )
+}
+
+function App() {
+  return (
+    <div className='app-wrapper'>
+      <ScrollToTopAndHash />
+      <Header />
+      <main className='app-main'>
+        <Routes>
+          <Route path='/' element={<HomePage />} />
+          <Route path='/contact' element={<ContactPage />} />
+        </Routes>
+      </main>
+    </div>
   )
 }
 

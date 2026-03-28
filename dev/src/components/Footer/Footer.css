@@ -1,0 +1,107 @@
+.footer {
+  position: relative;
+  overflow: hidden;
+  padding: 5rem 1.5rem 2.5rem;
+  background: linear-gradient(180deg, #070709 0%, #020203 100%);
+  color: #f5f5f5;
+}
+
+.footer::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -120px;
+  width: min(920px, 92vw);
+  height: 260px;
+  transform: translateX(-50%);
+  background: radial-gradient(circle at center, rgba(109, 40, 217, 0.3) 0%, rgba(109, 40, 217, 0.12) 36%, transparent 72%);
+  filter: blur(26px);
+  pointer-events: none;
+}
+
+.footer-shell {
+  position: relative;
+  z-index: 1;
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(18px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.footer-copy {
+  max-width: 640px;
+  text-align: left;
+}
+
+.footer-kicker {
+  display: inline-block;
+  margin-bottom: 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.58);
+}
+
+.footer-title {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1.05;
+}
+
+.footer-text {
+  margin: 1rem 0 0;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.footer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 180px;
+  padding: 0.95rem 1.5rem;
+  border-radius: 999px;
+  background: #f5f5f5;
+  color: #050505;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.footer-button:hover {
+  transform: translateY(-2px);
+  background: #ffffff;
+  box-shadow: 0 14px 30px rgba(255, 255, 255, 0.14);
+}
+
+@media (max-width: 768px) {
+  .footer {
+    padding: 4rem 1rem 2rem;
+  }
+
+  .footer-shell {
+    padding: 1.5rem;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .footer-button {
+    width: 100%;
+  }
+}

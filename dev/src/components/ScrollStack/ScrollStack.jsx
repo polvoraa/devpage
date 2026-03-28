@@ -30,7 +30,8 @@ export default function ScrollStack({
   scaleEndPosition = '8%',
   baseScale = 0.86,
   rotationAmount = -1.5,
-  blurAmount = 0
+  blurAmount = 0,
+  ...restProps
 }) {
   const cardsRef = useRef([]);
   const wrappersRef = useRef([]);
@@ -144,7 +145,7 @@ export default function ScrollStack({
   }, [baseScale, blurAmount, itemScale, rotationAmount, scaleEndPosition, stackPosition]);
 
   return (
-    <section className={`scroll-stack-section ${className}`.trim()}>
+    <section className={`scroll-stack-section ${className}`.trim()} {...restProps}>
       <div className="scroll-stack-inner">
         {childArray.map((child, index) => (
           <div

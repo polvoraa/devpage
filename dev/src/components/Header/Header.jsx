@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useLocation } from 'react-router-dom';
 import PillNav from '../PillNav/PillNav';
 import logo from '../../assets/logoWhite.svg';
-import GlassSurface from '../GlassSurface/GlassSurface'
 import './Header.css';
 
 function Header() {
+  const location = useLocation();
+
   return (
     <header className="header-container">
       <PillNav
@@ -12,11 +13,11 @@ function Header() {
         logoAlt="Company Logo"
         items={[
           { label: 'Home', href: '/' },
-          { label: 'About', href: '/about' },
-          { label: 'Services', href: '/services' },
-          { label: 'Contact', href: '/contact' }
+          { label: 'Projetos', href: '/#portfolio' },
+          { label: 'Stack', href: '/#stack' },
+          { label: 'Contato', href: '/contact' }
         ]}
-        activeHref="/"
+        activeHref={location.pathname === '/contact' ? '/contact' : location.hash ? `/${location.hash}` : '/'}
         className="custom-nav"
         ease="power2.easeOut"
         baseColor="#000000"
