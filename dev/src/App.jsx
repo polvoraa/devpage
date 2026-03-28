@@ -7,6 +7,8 @@ import StackShowcase from './components/StackShowcase/StackShowcase'
 import TechRail from './components/TechRail/TechRail'
 import Portfolio from './components/Portfolio/Portfolio'
 import ContactPage from './pages/ContactPage/ContactPage'
+import AdminLoginPage from './pages/AdminLoginPage/AdminLoginPage'
+import AdminMessagesPage from './pages/AdminMessagesPage/AdminMessagesPage'
 import './App.css'
 
 function ScrollToTopAndHash() {
@@ -52,6 +54,8 @@ function App() {
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/contact' element={<ContactPage />} />
+          <Route path='/admin/login' element={<AdminLoginPage />} />
+          <Route path='/admin/messages' element={<AdminMessagesPage />} />
         </Routes>
       </main>
     </div>

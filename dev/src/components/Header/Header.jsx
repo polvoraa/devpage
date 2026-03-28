@@ -15,9 +15,18 @@ function Header() {
           { label: 'Home', href: '/' },
           { label: 'Projetos', href: '/#portfolio' },
           { label: 'Stack', href: '/#stack' },
-          { label: 'Contato', href: '/contact' }
+          { label: 'Contato', href: '/contact' },
+          { label: 'Admin', href: '/admin/login' }
         ]}
-        activeHref={location.pathname === '/contact' ? '/contact' : location.hash ? `/${location.hash}` : '/'}
+        activeHref={
+          ['/contact', '/admin/login', '/admin/messages'].includes(location.pathname)
+            ? location.pathname === '/admin/messages'
+              ? '/admin/login'
+              : location.pathname
+            : location.hash
+              ? `/${location.hash}`
+              : '/'
+        }
         className="custom-nav"
         ease="power2.easeOut"
         baseColor="#000000"

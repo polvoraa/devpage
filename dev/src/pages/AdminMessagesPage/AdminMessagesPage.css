@@ -1,0 +1,77 @@
+.admin-messages-page {
+  min-height: calc(100vh - 100px);
+  padding: 8.5rem 1.5rem 3rem;
+  background: linear-gradient(180deg, #050507 0%, #0a0a0d 100%);
+  color: #fff;
+}
+
+.admin-messages-shell {
+  width: min(980px, 100%);
+  margin: 0 auto;
+}
+
+.admin-messages-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.admin-messages-topbar h1 {
+  margin: 0;
+}
+
+.admin-messages-topbar button {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.65rem 1rem;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.admin-messages-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.admin-message-card {
+  padding: 1.15rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  text-align: left;
+}
+
+.admin-message-card header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.admin-message-card h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.admin-message-card time {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+}
+
+.admin-message-content {
+  margin-bottom: 0;
+  white-space: pre-wrap;
+}
+
+.admin-messages-error {
+  color: #fca5a5;
+}
+
+@media (max-width: 640px) {
+  .admin-message-card header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
