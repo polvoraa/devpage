@@ -1,50 +1,41 @@
 import { useEffect, useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { apiRequest } from '../../lib/api'
-import { clearAuthToken, getAuthToken } from '../../lib/auth'
 import './AdminMessagesPage.css'
 
 function AdminMessagesPage() {
   const navigate = useNavigate()
-  const token = getAuthToken()
   const [messages, setMessages] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
 
   useEffect(() => {
-    if (!token) {
-      return
-    }
-
     async function loadMessages() {
       try {
         setError('')
-        const data = await apiRequest('/contacts', {
-          headers: { Authorization: `Bearer ${token}` },
-        })
+        const data = await apiRequest('/contacts')
         setMessages(data)
       } catch (requestError) {
-        setError(requestError.message)
-
-        if (requestError.message.toLowerCase().includes('token')) {
-          clearAuthToken()
-          navigate('/admin/login')
+        if (requestError.status === 401) {
+          navigate('/admin/login', { replace: true })
+          return
         }
+
+        setError(requestError.message)
       } finally {
         setIsLoading(false)
       }
     }
 
     loadMessages()
-  }, [navigate, token])
+  }, [navigate])
 
-  if (!token) {
-    return <Navigate to="/admin/login" replace />
-  }
-
-  const handleLogout = () => {
-    clearAuthToken()
-    navigate('/admin/login')
+  const handleLogout = async () => {
+    try {
+      await apiRequest('/auth/logout', { method: 'POST' })
+    } finally {
+      navigate('/admin/login', { replace: true })
+    }
   }
 
   return (

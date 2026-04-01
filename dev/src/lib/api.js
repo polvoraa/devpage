@@ -2,6 +2,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || '/api'
 
 export async function apiRequest(path, options = {}) {
   const response = await fetch(`${API_BASE_URL}${path}`, {
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json',
       ...(options.headers || {}),
@@ -13,7 +14,9 @@ export async function apiRequest(path, options = {}) {
 
   if (!response.ok) {
     const message = data?.message || 'Erro ao processar a requisicao.'
-    throw new Error(message)
+    const error = new Error(message)
+    error.status = response.status
+    throw error
   }
 
   return data

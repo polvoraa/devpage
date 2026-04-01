@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { apiRequest } from '../../lib/api'
-import { setAuthToken } from '../../lib/auth'
 import './AdminLoginPage.css'
 
 function AdminLoginPage() {
@@ -17,13 +16,12 @@ function AdminLoginPage() {
     setIsLoading(true)
 
     try {
-      const data = await apiRequest('/auth/login', {
+      await apiRequest('/auth/login', {
         method: 'POST',
         body: JSON.stringify({ email, password }),
       })
 
-      setAuthToken(data.token)
-      navigate('/admin/messages')
+      navigate('/admin/messages', { replace: true })
     } catch (requestError) {
       setError(requestError.message)
     } finally {

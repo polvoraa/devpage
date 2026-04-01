@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken'
 import { User } from '../models/User.js'
 import { authMiddleware } from '../middlewares/authMiddleware.js'
 import { createRateLimit } from '../middlewares/rateLimitMiddleware.js'
+import { createAuthCookie, createExpiredAuthCookie } from '../utils/cookies.js'
 import { asyncHandler } from '../utils/asyncHandler.js'
 import { isValidEmail, normalizeEmail, normalizeString } from '../utils/validation.js'
 
@@ -47,8 +48,9 @@ authRoutes.post('/login', loginRateLimit, asyncHandler(async (request, response)
     },
   )
 
+  response.setHeader('Set-Cookie', createAuthCookie(token))
+
   return response.json({
-    token,
     user: {
       id: user.id,
       email: user.email,
@@ -69,5 +71,10 @@ authRoutes.get('/me', authMiddleware, asyncHandler(async (request, response) => 
     createdAt: user.createdAt,
   })
 }))
+
+authRoutes.post('/logout', (_request, response) => {
+  response.setHeader('Set-Cookie', createExpiredAuthCookie())
+  return response.status(204).send()
+})
 
 export { authRoutes }
