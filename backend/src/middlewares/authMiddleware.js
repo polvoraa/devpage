@@ -10,7 +10,14 @@ export function authMiddleware(request, response, next) {
   const token = authHeader.split(' ')[1]
 
   try {
-    const payload = jwt.verify(token, process.env.JWT_SECRET)
+    const payload = jwt.verify(token, process.env.JWT_SECRET, {
+      algorithms: ['HS256'],
+    })
+
+    if (!payload || typeof payload !== 'object' || typeof payload.sub !== 'string') {
+      return response.status(401).json({ message: 'Token invalido ou expirado.' })
+    }
+
     request.user = payload
     return next()
   } catch {

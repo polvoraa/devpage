@@ -3,17 +3,27 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { User } from '../models/User.js'
 import { authMiddleware } from '../middlewares/authMiddleware.js'
+import { createRateLimit } from '../middlewares/rateLimitMiddleware.js'
+import { asyncHandler } from '../utils/asyncHandler.js'
+import { isValidEmail, normalizeEmail, normalizeString } from '../utils/validation.js'
 
 const authRoutes = Router()
+const loginRateLimit = createRateLimit({
+  keyPrefix: 'login',
+  limit: 10,
+  windowMs: 15 * 60 * 1000,
+  message: 'Muitas tentativas de login. Tente novamente em alguns minutos.',
+})
 
-authRoutes.post('/login', async (request, response) => {
-  const { email, password } = request.body
+authRoutes.post('/login', loginRateLimit, asyncHandler(async (request, response) => {
+  const email = normalizeEmail(request.body?.email)
+  const password = normalizeString(request.body?.password)
 
-  if (!email || !password) {
+  if (!email || !password || !isValidEmail(email) || password.length > 200) {
     return response.status(400).json({ message: 'Email e senha sao obrigatorios.' })
   }
 
-  const user = await User.findOne({ email: String(email).toLowerCase() })
+  const user = await User.findOne({ email })
 
   if (!user) {
     return response.status(401).json({ message: 'Credenciais invalidas.' })
@@ -31,7 +41,10 @@ authRoutes.post('/login', async (request, response) => {
       email: user.email,
     },
     process.env.JWT_SECRET,
-    { expiresIn: process.env.JWT_EXPIRES_IN || '7d' },
+    {
+      algorithm: 'HS256',
+      expiresIn: process.env.JWT_EXPIRES_IN || '7d',
+    },
   )
 
   return response.json({
@@ -41,9 +54,9 @@ authRoutes.post('/login', async (request, response) => {
       email: user.email,
     },
   })
-})
+}))
 
-authRoutes.get('/me', authMiddleware, async (request, response) => {
+authRoutes.get('/me', authMiddleware, asyncHandler(async (request, response) => {
   const user = await User.findById(request.user.sub).select('email createdAt')
 
   if (!user) {
@@ -55,6 +68,6 @@ authRoutes.get('/me', authMiddleware, async (request, response) => {
     email: user.email,
     createdAt: user.createdAt,
   })
-})
+}))
 
 export { authRoutes }

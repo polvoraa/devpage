@@ -4,17 +4,20 @@ import cors from 'cors'
 import bcrypt from 'bcryptjs'
 import { connectDatabase } from './config/db.js'
 import { User } from './models/User.js'
+import { securityHeadersMiddleware } from './middlewares/securityHeadersMiddleware.js'
 import { authRoutes } from './routes/authRoutes.js'
 import { contactRoutes } from './routes/contactRoutes.js'
 
 const app = express()
 
+app.disable('x-powered-by')
+app.use(securityHeadersMiddleware)
 app.use(
   cors({
     origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173',
   }),
 )
-app.use(express.json())
+app.use(express.json({ limit: '16kb' }))
 
 app.get('/api/health', (_request, response) => {
   response.json({ ok: true })
@@ -66,5 +69,10 @@ async function startServer() {
     process.exit(1)
   }
 }
+
+app.use((error, _request, response, _next) => {
+  console.error('Erro nao tratado:', error)
+  return response.status(500).json({ message: 'Erro interno do servidor.' })
+})
 
 startServer()
