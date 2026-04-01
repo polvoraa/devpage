@@ -15,14 +15,11 @@ function Header() {
           { label: 'Home', href: '/' },
           { label: 'Projetos', href: '/#portfolio' },
           { label: 'Stack', href: '/#stack' },
-          { label: 'Contato', href: '/contact' },
-          { label: 'Admin', href: '/admin/login' }
+          { label: 'Contato', href: '/contact' }
         ]}
         activeHref={
-          ['/contact', '/admin/login', '/admin/messages'].includes(location.pathname)
-            ? location.pathname === '/admin/messages'
-              ? '/admin/login'
-              : location.pathname
+          location.pathname === '/contact'
+            ? location.pathname
             : location.hash
               ? `/${location.hash}`
               : '/'
