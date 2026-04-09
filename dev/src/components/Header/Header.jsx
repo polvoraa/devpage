@@ -13,12 +13,13 @@ function Header() {
         logoAlt="Company Logo"
         items={[
           { label: 'Home', href: '/' },
+          { label: 'Visual', href: '/portfolio-visual' },
           { label: 'Projetos', href: '/#portfolio' },
           { label: 'Stack', href: '/#stack' },
           { label: 'Contato', href: '/contact' }
         ]}
         activeHref={
-          location.pathname === '/contact'
+          location.pathname === '/contact' || location.pathname === '/portfolio-visual'
             ? location.pathname
             : location.hash
               ? `/${location.hash}`

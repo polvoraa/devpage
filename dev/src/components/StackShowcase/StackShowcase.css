@@ -80,9 +80,32 @@
   .stack-showcase-shell {
     grid-template-columns: 1fr;
     min-height: 24rem;
+    padding: 1.25rem;
   }
 
   .stack-showcase-panel {
     min-height: 15rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .stack-showcase-shell {
+    min-height: auto;
+    gap: 1.25rem;
+    padding: 1rem;
+  }
+
+  .stack-showcase-title {
+    font-size: clamp(1.75rem, 9vw, 2.6rem);
+  }
+
+  .stack-showcase-text {
+    margin-top: 1rem;
+    line-height: 1.65;
+  }
+
+  .stack-showcase-panel {
+    min-height: 11rem;
+    border-radius: 22px;
   }
 }

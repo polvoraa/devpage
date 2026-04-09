@@ -3,8 +3,19 @@ import './Portfolio.css';
 import plannerPreview from '../../assets/images/portifolio/plannerpreview.png';
 import novaPreview from '../../assets/images/portifolio/novapreview.png';
 import consultoriaPreview from '../../assets/images/portifolio/consultoriapreview.png';
+import porschePreview from '../../assets/images/portifolio/porschepreview.png';
 
 const projects = [
+  {
+    title: 'Product Landing',
+    category: 'Frontend',
+    description: `Landing page para apresentacao de produto com foco em narrativa visual, clareza de proposta e conversao.
+Estrutura pensada para destacar beneficios, reforcar valor e conduzir o usuario para a acao.`,
+    stack: ['Vercel', 'React', 'Vite', 'CSS'],
+    liveUrl: 'https://product-landing-sage.vercel.app',
+    repoUrl: 'https://github.com/polvoraa/product-landing',
+    image: porschePreview,
+  },
   {
     title: 'Planner Pessoal',
     category: 'Full Stack',

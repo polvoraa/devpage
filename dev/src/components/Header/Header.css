@@ -1,5 +1,17 @@
 .header-container {
   width: 100%;
   display: flex;
-  justify-content: center; /* 👈 centraliza horizontal */
+  justify-content: center;
+  padding-inline: 1rem;
+  pointer-events: none;
+}
+
+.header-container > * {
+  pointer-events: auto;
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    padding-inline: 0;
+  }
 }

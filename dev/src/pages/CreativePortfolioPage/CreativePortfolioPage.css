@@ -1,0 +1,301 @@
+.creative-portfolio-page {
+  position: relative;
+  min-height: 100vh;
+  padding: clamp(7rem, 12vw, 9rem) 1.25rem 4rem;
+  background:
+    radial-gradient(circle at top left, rgba(215, 153, 33, 0.22), transparent 24%),
+    radial-gradient(circle at 82% 12%, rgba(33, 150, 243, 0.2), transparent 20%),
+    radial-gradient(circle at 20% 78%, rgba(244, 114, 182, 0.16), transparent 24%),
+    linear-gradient(180deg, #0f0d0d 0%, #161211 46%, #0b0908 100%);
+  color: #f7f1e8;
+}
+
+.creative-portfolio-shell {
+  width: min(1240px, 100%);
+  margin: 0 auto;
+}
+
+.creative-portfolio-hero {
+  max-width: 56rem;
+  text-align: left;
+}
+
+.creative-portfolio-kicker {
+  display: inline-flex;
+  padding: 0.45rem 0.9rem;
+  border: 1px solid rgba(247, 241, 232, 0.16);
+  border-radius: 999px;
+  background: rgba(247, 241, 232, 0.06);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.creative-portfolio-title {
+  margin: 1.2rem 0 0;
+  font-size: clamp(2.8rem, 6vw, 5.8rem);
+  line-height: 0.94;
+  letter-spacing: -0.06em;
+}
+
+.creative-portfolio-intro {
+  max-width: 46rem;
+  margin: 1.4rem 0 0;
+  color: rgba(247, 241, 232, 0.74);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  text-align: left;
+}
+
+.creative-service-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 2.5rem;
+}
+
+.creative-service-card {
+  padding: 1.2rem;
+  border: 1px solid rgba(247, 241, 232, 0.12);
+  border-radius: 22px;
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(10px);
+  text-align: left;
+}
+
+.creative-service-card p {
+  margin: 0.8rem 0 0;
+  color: rgba(247, 241, 232, 0.7);
+  line-height: 1.65;
+}
+
+.creative-service-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.creative-masonry {
+  column-count: 3;
+  column-gap: 1.2rem;
+  margin-top: 2rem;
+}
+
+.creative-work-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  break-inside: avoid;
+  margin-bottom: 1.2rem;
+  padding: 1.35rem;
+  overflow: hidden;
+  border: 1px solid rgba(247, 241, 232, 0.1);
+  border-radius: 28px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03)),
+    rgba(18, 15, 14, 0.92);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+  text-align: left;
+}
+
+.creative-work-card--small {
+  min-height: 16rem;
+}
+
+.creative-work-card--medium {
+  min-height: 22rem;
+}
+
+.creative-work-card--tall {
+  min-height: 29rem;
+}
+
+.creative-work-card--wide {
+  min-height: 20rem;
+}
+
+.creative-work-overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+.creative-work-card--gold .creative-work-overlay {
+  background: linear-gradient(160deg, rgba(215, 153, 33, 0.36), transparent 58%);
+}
+
+.creative-work-card--orange .creative-work-overlay {
+  background: linear-gradient(160deg, rgba(249, 115, 22, 0.34), transparent 58%);
+}
+
+.creative-work-card--blue .creative-work-overlay {
+  background: linear-gradient(160deg, rgba(59, 130, 246, 0.34), transparent 58%);
+}
+
+.creative-work-card--pink .creative-work-overlay {
+  background: linear-gradient(160deg, rgba(244, 114, 182, 0.3), transparent 58%);
+}
+
+.creative-work-card--green .creative-work-overlay {
+  background: linear-gradient(160deg, rgba(52, 211, 153, 0.28), transparent 58%);
+}
+
+.creative-work-card--violet .creative-work-overlay {
+  background: linear-gradient(160deg, rgba(168, 85, 247, 0.3), transparent 58%);
+}
+
+.creative-work-header,
+.creative-work-body,
+.creative-work-details {
+  position: relative;
+  z-index: 1;
+}
+
+.creative-work-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.creative-work-index {
+  color: rgba(247, 241, 232, 0.45);
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+}
+
+.creative-work-category {
+  padding: 0.4rem 0.72rem;
+  border-radius: 999px;
+  background: rgba(247, 241, 232, 0.08);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.creative-work-body {
+  margin-top: 4rem;
+}
+
+.creative-work-body h2 {
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+}
+
+.creative-work-body p {
+  margin: 1rem 0 0;
+  color: rgba(247, 241, 232, 0.74);
+  line-height: 1.75;
+}
+
+.creative-work-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.creative-work-details li {
+  padding: 0.4rem 0.72rem;
+  border-radius: 999px;
+  border: 1px solid rgba(247, 241, 232, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 0.8rem;
+}
+
+.creative-portfolio-cta {
+  margin-top: 1rem;
+  padding: 1.5rem;
+  border-radius: 24px;
+  border: 1px solid rgba(247, 241, 232, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  text-align: left;
+}
+
+.creative-portfolio-cta-label {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.creative-portfolio-cta p {
+  margin: 0.9rem 0 0;
+  max-width: 44rem;
+  color: rgba(247, 241, 232, 0.74);
+  line-height: 1.7;
+}
+
+@media (max-width: 1080px) {
+  .creative-service-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .creative-masonry {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 720px) {
+  .creative-portfolio-page {
+    padding-top: 6.5rem;
+    padding-inline: 1rem;
+  }
+
+  .creative-portfolio-title {
+    font-size: clamp(2.2rem, 12vw, 3.8rem);
+  }
+
+  .creative-portfolio-intro {
+    font-size: 0.98rem;
+    line-height: 1.7;
+  }
+
+  .creative-masonry {
+    column-count: 1;
+  }
+
+  .creative-work-body {
+    margin-top: 3rem;
+  }
+
+  .creative-work-card {
+    padding: 1rem;
+    border-radius: 22px;
+  }
+
+  .creative-work-card--small,
+  .creative-work-card--medium,
+  .creative-work-card--tall,
+  .creative-work-card--wide {
+    min-height: auto;
+  }
+
+  .creative-work-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .creative-service-strip {
+    gap: 0.8rem;
+    margin-top: 2rem;
+  }
+
+  .creative-service-card,
+  .creative-portfolio-cta {
+    padding: 1rem;
+    border-radius: 18px;
+  }
+}

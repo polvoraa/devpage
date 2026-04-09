@@ -104,4 +104,12 @@
   .footer-button {
     width: 100%;
   }
+
+  .footer-title {
+    font-size: clamp(1.8rem, 9vw, 2.4rem);
+  }
+
+  .footer-text {
+    line-height: 1.65;
+  }
 }

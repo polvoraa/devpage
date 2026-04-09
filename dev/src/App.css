@@ -6,3 +6,9 @@
 .app-main {
   min-height: 100vh;
 }
+
+@media (max-width: 768px) {
+  .app-main {
+    min-height: 100svh;
+  }
+}

@@ -61,3 +61,14 @@
   margin: 0.2rem 0 0;
   color: #fca5a5;
 }
+
+@media (max-width: 640px) {
+  .admin-login-page {
+    padding: 7rem 1rem 2rem;
+  }
+
+  .admin-login-card {
+    padding: 1.4rem;
+    border-radius: 20px;
+  }
+}

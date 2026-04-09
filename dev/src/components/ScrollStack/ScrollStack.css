@@ -54,15 +54,21 @@
 
 @media (max-width: 768px) {
   .scroll-stack-section {
-    min-height: 240vh;
+    min-height: auto;
   }
 
   .scroll-stack-inner {
-    padding: 14vh 1rem 28vh;
+    padding: 5rem 1rem 5rem;
+  }
+
+  .scroll-stack-card-wrapper {
+    position: static;
+    top: auto !important;
+    margin-bottom: 1rem !important;
   }
 
   .scroll-stack-card {
-    min-height: 24rem;
+    min-height: auto;
     border-radius: 24px;
   }
 }

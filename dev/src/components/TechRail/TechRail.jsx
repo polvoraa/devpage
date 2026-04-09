@@ -54,17 +54,30 @@ export default function TechRail() {
     const EXTRA_PX = 100;
 
     const updateMetrics = () => {
+      const isMobile = window.innerWidth <= 768;
       const trackW      = track.scrollWidth;
       const viewportW   = viewport.clientWidth;
       const totalScroll = Math.max(trackW - viewportW, 0) + EXTRA_PX;
       const sectionTop  = section.getBoundingClientRect().top + window.scrollY;
 
       metricsRef.current = { totalScroll, sectionTop };
+
+      if (isMobile) {
+        section.style.minHeight = 'auto';
+        track.style.transform = 'none';
+        return;
+      }
+
       section.style.minHeight = `${window.innerHeight + totalScroll}px`;
     };
 
     const onScroll = () => {
       const { totalScroll, sectionTop } = metricsRef.current;
+      if (window.innerWidth <= 768) {
+        track.style.transform = 'none';
+        return;
+      }
+
       if (totalScroll === 0) return;
 
       const raw         = window.scrollY - sectionTop;
@@ -159,6 +172,14 @@ function ProgressDots({ total, trackRef, viewportRef, sectionRef }) {
       const track    = trackRef.current;
       const viewport = viewportRef.current;
       if (!section || !track || !viewport) return;
+
+      if (window.innerWidth <= 768) {
+        dotsRef.current.forEach((dot, i) => {
+          if (!dot) return;
+          dot.classList.toggle('active', i === 0);
+        });
+        return;
+      }
 
       const totalScroll = Math.max(track.scrollWidth - viewport.clientWidth, 0);
       const sectionTop  = section.getBoundingClientRect().top + window.scrollY;

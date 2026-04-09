@@ -72,6 +72,15 @@ export default function ScrollStack({
       const wrappers = wrappersRef.current.filter(Boolean);
       if (!cards.length || !wrappers.length) return;
 
+      if (window.innerWidth <= 768) {
+        cards.forEach((card) => {
+          card.style.transform = 'none';
+          card.style.filter = 'none';
+        });
+        lastTransforms.clear();
+        return;
+      }
+
       const viewportHeight = window.innerHeight;
       const scrollTop = window.scrollY;
       const stackPositionPx = parsePosition(stackPosition, viewportHeight);

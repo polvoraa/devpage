@@ -10,12 +10,14 @@
 .hero-container {
   position: relative;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: #000;
   overflow: hidden;
+  padding: 7rem 1.5rem 5rem;
 }
 
 /* ── AURORA ── */
@@ -46,6 +48,7 @@
   gap: 0;
   text-align: center;
   pointer-events: none;
+  max-width: 56rem;
 }
 
 /* ── EYEBROW ── */
@@ -222,27 +225,42 @@
 
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
+  .hero-container {
+    min-height: auto;
+    padding: 7.5rem 1rem 4.5rem;
+    align-items: flex-start;
+  }
+
   .hero-content {
-    padding: 0 1.5rem;
-    max-width: 420px;
+    padding: 0;
+    max-width: 26rem;
+    margin-inline: auto;
   }
 
   .hero-title {
-    font-size: clamp(2.4rem, vw, 3rem);
+    font-size: clamp(2.5rem, 12vw, 3.8rem);
+    line-height: 0.96;
   }
 
   .hero-subtitle {
     font-size: 0.95rem;
+    margin-top: 1rem;
+    line-height: 1.55;
   }
 
   .hero-ctas {
     flex-direction: column;
     width: 100%;
     gap: 0.75rem;
+    margin-top: 2rem;
   }
 
   .hero-btn {
     width: 100%;
     justify-content: center;
+  }
+
+  .hero-scroll-arrow {
+    display: none;
   }
 }

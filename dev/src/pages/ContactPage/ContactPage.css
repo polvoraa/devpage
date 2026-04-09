@@ -164,7 +164,38 @@
     padding: 7rem 1rem 4rem;
   }
 
+  .contact-page-title {
+    font-size: clamp(2rem, 11vw, 3rem);
+  }
+
+  .contact-page-text {
+    margin-top: 1rem;
+    line-height: 1.7;
+  }
+
   .contact-form {
     padding: 1.4rem;
+    border-radius: 22px;
+  }
+
+  .contact-highlight {
+    padding: 1rem;
+    border-radius: 18px;
+  }
+}
+
+@media (max-width: 520px) {
+  .contact-page {
+    padding-top: 6.5rem;
+  }
+
+  .contact-page-shell {
+    gap: 1.5rem;
+  }
+
+  .contact-field input,
+  .contact-field textarea,
+  .contact-submit {
+    padding-inline: 0.95rem;
   }
 }
