@@ -12,9 +12,18 @@ const app = express()
 
 app.disable('x-powered-by')
 app.use(securityHeadersMiddleware)
+const clientOriginEnv = process.env.CLIENT_ORIGIN || 'http://localhost:5173'
+const allowedOrigins = clientOriginEnv.split(',').map(origin => origin.trim())
+
 app.use(
   cors({
-    origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173',
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true)
+      } else {
+        callback(new Error('Not allowed by CORS'))
+      }
+    },
     credentials: true,
   }),
 )
